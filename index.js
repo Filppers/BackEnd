@@ -154,14 +154,13 @@ app.get("/messages", (req, res) => {
     res.status(400).send("error : ", err);
   }
 });
-
 /**
  * @swagger
  * /messages:
  *   post:
+ *     tags: [API]
  *     summary: "편지 전송"
  *     description: "특정 사용자(name)에게 편지를 전송합니다."
- *     tags: [API]
  *     requestBody:
  *       content:
  *         application/json:
@@ -185,7 +184,7 @@ app.get("/messages", (req, res) => {
  *               - fromName
  *               - message
  *     responses:
- *       "200":
+ *       200:
  *         description: "편지 전송 성공"
  *         content:
  *           application/json:
@@ -194,9 +193,29 @@ app.get("/messages", (req, res) => {
  *               properties:
  *                 ok:
  *                   type: boolean
+ *                   description: "전송 성공 여부"
  *                 message:
  *                   type: string
  *                   example: "전송 완료!"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     toName:
+ *                       type: string
+ *                       description: "받는 사람 이름"
+ *                     fromName:
+ *                       type: string
+ *                       description: "보내는 사람 이름"
+ *                     message:
+ *                       type: string
+ *                       description: "보낸 편지 내용"
+ *                     type:
+ *                       type: string
+ *                       description: "편지 타입"
+ *                     date:
+ *                       type: string
+ *                       format: date-time
+ *                       description: "편지 작성 시간"
  */
 
 app.post("/messages", (req, res) => {
