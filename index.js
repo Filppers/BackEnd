@@ -84,7 +84,7 @@ app.get("/", (req, res) => {
  *            description: "조회할 사용자 이름"
  *      responses:
  *       200:
- *        description: 제품 조회 성공
+ *        description: 편지 목록 조회 성공
  *        schema:
  *          type: array
  *          items:
