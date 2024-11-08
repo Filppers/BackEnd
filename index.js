@@ -68,35 +68,6 @@ app.get("/", (req, res) => {
 
 /**
  * @swagger
- * /messages:
- *   get:
- *     summary: "받은 편지 조회"
- *     description: "특정 사용자(name)의 이름으로 온 편지를 조회합니다."
- *     tags: [API]
- *     parameters:
- *       - in: query
- *         name: name
- *         required: true
- *         description: 사용자 이름 (예: 김기연)
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: "특정 사용자가 받은 편지 조회 성공"
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 ok:
- *                   type: boolean
- *                 message:
- *                   type: object
- *                   example: [{"id":1, "toName":"김기연", "fromName":"홍길동", "fromId":0, "message":"안녕하세요 ㅎㅎ", "type":"", "date":"2024-11-08T07:56:44.000Z"}, {"id":2, "toName":"김기연", "fromName":"누구게", "fromId":0, "message":"hello", "type":"", "date":"2024-11-08T11:56:28.000Z"}]
- */
-
-/**
- * @swagger
  *  /messages:
  *    get:
  *      tags: [API]
