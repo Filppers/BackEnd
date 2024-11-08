@@ -4,6 +4,7 @@ const qs = require("qs");
 const axios = require("axios");
 const bodyParser = require("body-parser");
 var createError = require("http-errors");
+const { swaggerUi, specs } = require("./swagger/swagger");
 
 const { callChatGPT } = require("./chatgpt");
 const port = 8080;
@@ -18,6 +19,9 @@ const {
 const app = express();
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+// Swagger
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(specs));
 
 // DB
 var maria = require("./config/maria");
@@ -47,10 +51,60 @@ app.use(
 app.use(bodyParser.json()); //요청 본문을 json 형태로 파싱
 app.use(bodyParser.urlencoded({ extended: false })); //
 
+/**
+ * @path {GET} http://localhost:3000/
+ * @description 요청 데이터 값이 없고 반환 값이 있는 GET Method
+ */
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+/**
+ * @swagger
+ * /messages?name={name}:
+ *  get:
+ *    summary: "받은 편지 조회"
+ *    description: "특정 사용자(name)의 이름으로 온 편지를 조회합니다."
+ *    parameters:
+ *      - in: query
+ *        name: name
+ *        required: true
+ *        description: 사용자 이름 (예: 김기연)
+ *        schema:
+ *          type: string
+ *    responses:
+ *      "200":
+ *        description: "특정 사용자가 받은 편지 조회 성공"
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                ok:
+ *                  type: boolean
+ *                users:
+ *                  type: object
+ *                  example: [
+    {
+        "_id": 1,
+        "toName": "김기연",
+        "fromName": "홍길동",
+        "fromId": 0,
+        "message": "안녕하세요 ㅎㅎ",
+        "type": "",
+        "date": "2024-11-08T07:56:44.000Z"
+    },
+    {
+        "_id": 2,
+        "toName": "김기연",
+        "fromName": "누구게",
+        "fromId": 0,
+        "message": "hello",
+        "type": "",
+        "date": "2024-11-08T11:56:28.000Z"
+    },
+]
+ */
 app.get("/messages", (req, res) => {
   try {
     let toName = req.query.name;
@@ -74,6 +128,50 @@ app.get("/messages", (req, res) => {
     res.status(400).send("error : ", err);
   }
 });
+
+/**
+ * @swagger
+ * /messages:
+ * post:
+ * summary: "편지 전송"
+ * description: "특정 사용자(name)에게 편지를 전송합니다."
+ * requestBody:
+ * content:
+ * application/json:
+ * schema:
+ * type: object
+ * properties:
+ * toName:
+ * type: string
+ * description: 받는 사람 이름 (10자 이내)
+ * fromName:
+ * type: string
+ * description: 보내는 사람 이름 (10자 이내)
+ * message:
+ * type: string
+ * description: 보낼 편지 내용 (2000자 이내)
+ * type:
+ * type: string
+ *  description: 편지 타입 설정 등의 기능으로 자유롭게 이용! (선택 입력)
+ * required:
+ * - toName
+ * - fromName
+ * - message
+ * responses:
+ * 200:
+ * description: "편지 전송 성공"
+ * content:
+ * application/json:
+ * schema:
+ * type: object
+ * properties:
+ * ok:
+ * type: boolean
+ * example: true
+ * message:
+ * type: string
+ * example: "전송 완료!"
+ * */
 
 app.post("/messages", (req, res) => {
   try {

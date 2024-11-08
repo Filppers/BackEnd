@@ -20,5 +20,9 @@
     "openai": "^4.67.3",
     "qs": "^6.13.0",
     "tunnel-ssh": "^5.1.2"
+  },
+  "devDependencies": {
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }
