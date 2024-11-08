@@ -84,7 +84,7 @@ app.get("/", (req, res) => {
  *            description: "조회할 사용자 이름"
  *      responses:
  *       200:
- *        description: 편지 목록 조회 성공
+ *        description: 제품 조회 성공
  *        schema:
  *          type: array
  *          items:
@@ -157,54 +157,52 @@ app.get("/messages", (req, res) => {
 
 /**
  * @swagger
- *  /messages:
- *    post:
- *      summary: 로그인하여 토큰을 받습니다.
- *      consumes:
- *        - application/json
- *      requestBody:
- *        x-name: body
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              required:
- *              - name
- *              - socialId
- *              - socialType
- *              properties:
- *                name:
- *                  type: string
- *                socialId:
- *                  type: string
- *                socialType:
- *                  type: string
- *                email:
- *                  type: string
- *                profileImageUrl:
- *                  type: string
- *      responses:
- *        200:
- *          description: 요청 성공
- *          content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  status:
- *                    type: number
- *                    example: 200
- *                  data:
- *                    type: object
- *                    properties:
- *                      token:
- *                        type: string
- *                      isNewUser:
- *                        type: boolean
- *                  message:
- *                    type: string
- *                    example: 요청 성공
+ * /messages:
+ *   post:
+ *     tags: [API]
+ *     summary: "편지 전송"
+ *     description: "특정 사용자(name)에게 편지를 전송합니다."
+ *     consumes:
+ *       - application/json
+ *     requestBody:
+ *       x-name: body
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             required:
+ *               - toName
+ *               - fromName
+ *               - message
+ *             properties:
+ *               toName:
+ *                 type: string
+ *                 description: "받는 사람 이름 (10자 이내)"
+ *               fromName:
+ *                 type: string
+ *                 description: "보내는 사람 이름 (10자 이내)"
+ *               message:
+ *                 type: string
+ *                 description: "보낼 편지 내용 (2000자 이내)"
+ *               type:
+ *                 type: string
+ *                 description: "편지 배경색, 폰트 설정 등의 기능으로 자유롭게 이용! (선택 입력)"
+ *     responses:
+ *       200:
+ *         description: "편지 전송 성공"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ok:
+ *                   type: boolean
+ *                   description: "전송 성공 여부"
+ *                 message:
+ *                   type: string
+ *                   example: "전송 완료!"
  */
+
 app.post("/messages", (req, res) => {
   try {
     let toName = req.body.toName;
