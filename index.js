@@ -65,6 +65,7 @@ app.use(bodyParser.urlencoded({ extended: false })); //
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
 /**
  * @swagger
  * /messages:
@@ -85,50 +86,13 @@ app.get("/", (req, res) => {
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   _id:
- *                     type: integer
- *                     description: "해당 편지의 ID"
- *                   toName:
- *                     type: string
- *                     description: "받는 사람 이름"
- *                   fromName:
- *                     type: string
- *                     description: "보내는 사람 이름"
- *                   fromId:
- *                     type: integer
- *                     description: "보내는 사람 ID"
- *                   message:
- *                     type: string
- *                     description: "편지 내용"
- *                   type:
- *                     type: string
- *                     description: "편지 타입 - 편지 배경색, 폰트 설정 등의 기능으로 자유롭게 이용!"
- *                   date:
- *                     type: string
- *                     format: date-time
- *                     description: "편지 작성 시간"
- *             examples:
- *               example1:
- *                 summary: "편지 목록 예시"
- *                 value:
- *                   - _id: 1
- *                     toName: "김기연"
- *                     fromName: "홍길동"
- *                     fromId: 0
- *                     message: "안녕하세요 ㅎㅎ"
- *                     type: ""
- *                     date: "2024-11-08T07:56:44.000Z"
- *                   - _id: 2
- *                     toName: "김기연"
- *                     fromName: "누구게"
- *                     fromId: 0
- *                     message: "hello"
- *                     type: ""
- *                     date: "2024-11-08T11:56:28.000Z"
+ *               type: object
+ *               properties:
+ *                 ok:
+ *                   type: boolean
+ *                 message:
+ *                   type: object
+ *                   example: [{"id":1, "toName":"김기연", "fromName":"홍길동", "fromId":0, "message":"안녕하세요 ㅎㅎ", "type":"", "date":"2024-11-08T07:56:44.000Z"}, {"id":2, "toName":"김기연", "fromName":"누구게", "fromId":0, "message":"hello", "type":"", "date":"2024-11-08T11:56:28.000Z"}]
  */
 
 app.get("/messages", (req, res) => {
