@@ -162,29 +162,32 @@ app.get("/messages", (req, res) => {
  *     tags: [API]
  *     summary: "편지 전송"
  *     description: "특정 사용자(name)에게 편지를 전송합니다."
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - toName
- *               - fromName
- *               - message
- *             properties:
- *               toName:
- *                 type: string
- *                 description: "받는 사람 이름 (10자 이내)"
- *               fromName:
- *                 type: string
- *                 description: "보내는 사람 이름 (10자 이내)"
- *               message:
- *                 type: string
- *                 description: "보낼 편지 내용 (2000자 이내)"
- *               type:
- *                 type: string
- *                 description: "편지 배경색, 폰트 설정 등의 기능으로 자유롭게 이용! (선택 입력)"
+ *     produces:
+ *     - application/json
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         description: "편지 전송을 위한 정보"
+ *         required: true
+ *         schema:
+ *           type: object
+ *           required:
+ *             - toName
+ *             - fromName
+ *             - message
+ *           properties:
+ *             toName:
+ *               type: string
+ *               description: "받는 사람 이름 (10자 이내)"
+ *             fromName:
+ *               type: string
+ *               description: "보내는 사람 이름 (10자 이내)"
+ *             message:
+ *               type: string
+ *               description: "보낼 편지 내용 (2000자 이내)"
+ *             type:
+ *               type: string
+ *               description: "편지 배경색, 폰트 설정 등의 기능으로 자유롭게 이용! (선택 입력)"
  *     responses:
  *       200:
  *         description: "편지 전송 성공"
