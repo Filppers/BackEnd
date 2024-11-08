@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
 
 /**
  * @swagger
- * paths: /messages?name={name}:
+ * /messages?name={name}:
  *  get:
  *    summary: "받은 편지 조회"
  *    description: "특정 사용자(name)의 이름으로 온 편지를 조회합니다."
@@ -140,47 +140,46 @@ app.get("/messages", (req, res) => {
 /**
  * @swagger
  * /messages:
- * post:
- * summary: "편지 전송"
- * description: "특정 사용자(name)에게 편지를 전송합니다."
- * tags: [API]
- * requestBody:
- * content:
- * application/json:
- * schema:
- * type: object
- * properties:
- * toName:
- * type: string
- * description: 받는 사람 이름 (10자 이내)
- * fromName:
- * type: string
- * description: 보내는 사람 이름 (10자 이내)
- * message:
- * type: string
- * description: 보낼 편지 내용 (2000자 이내)
- * type:
- * type: string
- *  description: 편지 타입 설정 등의 기능으로 자유롭게 이용! (선택 입력)
- * required:
- * - toName
- * - fromName
- * - message
- * responses:
- * 200:
- * description: "편지 전송 성공"
- * content:
- * application/json:
- * schema:
- * type: object
- * properties:
- * ok:
- * type: boolean
- * example: true
- * message:
- * type: string
- * example: "전송 완료!"
- * */
+ *   post:
+ *     summary: "편지 전송"
+ *     description: "특정 사용자(name)에게 편지를 전송합니다."
+ *     tags: [API]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               toName:
+ *                 type: string
+ *                 description: "받는 사람 이름 (10자 이내)"
+ *               fromName:
+ *                 type: string
+ *                 description: "보내는 사람 이름 (10자 이내)"
+ *               message:
+ *                 type: string
+ *                 description: "보낼 편지 내용 (2000자 이내)"
+ *               type:
+ *                 type: string
+ *                 description: "편지 타입 설정 등의 기능으로 자유롭게 이용! (선택 입력)"
+ *             required:
+ *               - toName
+ *               - fromName
+ *               - message
+ *     responses:
+ *       "200":
+ *         description: "편지 전송 성공"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ok:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                   example: "전송 완료!"
+ */
 
 app.post("/messages", (req, res) => {
   try {
