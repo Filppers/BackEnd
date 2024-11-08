@@ -158,52 +158,52 @@ app.get("/messages", (req, res) => {
 /**
  * @swagger
  *  /messages:
- * post:
- *   summary: 로그인하여 토큰을 받습니다.
- *   consumes:
- *     - application/json
- *   requestBody:
- *     x-name: body
- *     required: true
- *     content:
- *       application/json:
- *         schema:
- *           required:
- *           - name
- *           - socialId
- *           - socialType
- *           properties:
- *             name:
- *               type: string
- *             socialId:
- *               type: string
- *             socialType:
- *               type: string
- *             email:
- *               type: string
- *             profileImageUrl:
- *               type: string
- *   responses:
- *     200:
- *       description: 요청 성공
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               status:
- *                 type: number
- *                 example: 200
- *               data:
- *                 type: object
- *                 properties:
- *                   token:
- *                     type: string
- *                   isNewUser:
- *                     type: boolean
- *               message:
- *                 type: string
- *                 example: 요청 성공
+ *    post:
+ *      summary: 로그인하여 토큰을 받습니다.
+ *      consumes:
+ *        - application/json
+ *      requestBody:
+ *        x-name: body
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              required:
+ *              - name
+ *              - socialId
+ *              - socialType
+ *              properties:
+ *                name:
+ *                  type: string
+ *                socialId:
+ *                  type: string
+ *                socialType:
+ *                  type: string
+ *                email:
+ *                  type: string
+ *                profileImageUrl:
+ *                  type: string
+ *      responses:
+ *        200:
+ *          description: 요청 성공
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: object
+ *                    properties:
+ *                      token:
+ *                        type: string
+ *                      isNewUser:
+ *                        type: boolean
+ *                  message:
+ *                    type: string
+ *                    example: 요청 성공
  */
 app.post("/messages", (req, res) => {
   try {
