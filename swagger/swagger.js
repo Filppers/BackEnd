@@ -14,7 +14,7 @@ const options = {
       },
     ],
   },
-  apis: ["/index.js"], //Swagger 파일 연동
+  apis: ["index.js"], //Swagger 파일 연동
 };
 const specs = swaggereJsdoc(options);
 

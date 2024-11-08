@@ -52,6 +52,13 @@ app.use(bodyParser.json()); //요청 본문을 json 형태로 파싱
 app.use(bodyParser.urlencoded({ extended: false })); //
 
 /**
+ * @swagger
+ * tags:
+ *   name: API
+ *   description:
+ */
+
+/**
  * @path {GET} http://localhost:3000/
  * @description 요청 데이터 값이 없고 반환 값이 있는 GET Method
  */
@@ -61,10 +68,11 @@ app.get("/", (req, res) => {
 
 /**
  * @swagger
- * /messages?name={name}:
+ * paths: /messages?name={name}:
  *  get:
  *    summary: "받은 편지 조회"
  *    description: "특정 사용자(name)의 이름으로 온 편지를 조회합니다."
+ *    tags: [API]
  *    parameters:
  *      - in: query
  *        name: name
@@ -135,6 +143,7 @@ app.get("/messages", (req, res) => {
  * post:
  * summary: "편지 전송"
  * description: "특정 사용자(name)에게 편지를 전송합니다."
+ * tags: [API]
  * requestBody:
  * content:
  * application/json:
