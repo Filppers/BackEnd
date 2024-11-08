@@ -11,10 +11,14 @@
   "description": "",
   "dependencies": {
     "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "http-errors": "^2.0.0",
+    "mysql2": "^3.11.4",
     "openai": "^4.67.3",
-    "qs": "^6.13.0"
+    "qs": "^6.13.0",
+    "tunnel-ssh": "^5.1.2"
   }
 }

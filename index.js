@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const qs = require("qs");
 const axios = require("axios");
+const bodyParser = require("body-parser");
+var createError = require("http-errors");
 
 const { callChatGPT } = require("./chatgpt");
 const port = 8080;
@@ -17,7 +19,11 @@ const app = express();
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-var allowlist = ["http://localhost:3000"];
+// DB
+var maria = require("./config/maria");
+maria.connect();
+
+var allowlist = ["http://localhost:3000,  http://localhost:3001"];
 
 app.use((req, res, next) => {
   console.log("\t");
@@ -37,13 +43,74 @@ app.use(
   })
 );
 
+//body-parser 모듈을 불러온다.
+app.use(bodyParser.json()); //요청 본문을 json 형태로 파싱
+app.use(bodyParser.urlencoded({ extended: false })); //
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post("/chat", async (req, res) => {
-  const prompt = req.body.prompt;
-  const response = await callChatGPT(prompt);
+app.get("/messages", (req, res) => {
+  try {
+    let toName = req.query.name;
+    maria.query(
+      `SELECT * FROM Messages where toName="${toName}"`,
+      function (err, result) {
+        if (!err) {
+          console.log("GET /messages - SELECT * FROM Messages");
+          console.log("GET /messages - toName: " + toName);
+
+          res.send(result);
+        } else {
+          console.log("ERR : " + err);
+          res.status(404).json({
+            error: err,
+          });
+        }
+      }
+    );
+  } catch (err) {
+    res.status(400).send("error : ", err);
+  }
+});
+
+app.post("/messages", (req, res) => {
+  try {
+    let toName = req.body.toName;
+    let fromName = req.body.fromName;
+    let message = req.body.message;
+    let type = req.body.type ?? "";
+
+    maria.query(
+      `INSERT INTO Messages(toName, fromName, message, type) values ('${toName}','${fromName}','${message}','${type}')`,
+      function (err, result) {
+        if (!err) {
+          console.log(
+            `POST /messages - INSERT INTO Messages(toName, fromName, message, type) values ('${toName}','${fromName}','${message}','${type}`
+          );
+
+          res.send("전송 완료!");
+        } else {
+          console.log("ERR : " + err);
+          res.status(404).json({
+            error: err,
+          });
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("error : ", err);
+  }
+});
+
+app.post("/gpt/generate/trip", async (req, res) => {
+  // query params: step = "summary" | "details"
+  const step = req.body.step;
+
+  const userInput = req.body.userPrompt;
+  const response = await callChatGPT({ userInput, gptStep: step });
 
   if (response) {
     res.json({ response: response });
