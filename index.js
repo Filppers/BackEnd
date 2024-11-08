@@ -154,6 +154,7 @@ app.get("/messages", (req, res) => {
     res.status(400).send("error : ", err);
   }
 });
+
 /**
  * @swagger
  * /messages:
@@ -162,6 +163,7 @@ app.get("/messages", (req, res) => {
  *     summary: "편지 전송"
  *     description: "특정 사용자(name)에게 편지를 전송합니다."
  *     requestBody:
+ *       required: true
  *       content:
  *         application/json:
  *           schema:
@@ -217,7 +219,6 @@ app.get("/messages", (req, res) => {
  *                       format: date-time
  *                       description: "편지 작성 시간"
  */
-
 app.post("/messages", (req, res) => {
   try {
     let toName = req.body.toName;
