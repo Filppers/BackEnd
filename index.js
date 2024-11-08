@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 var maria = require("./config/maria");
 maria.connect();
 
-var allowlist = ["http://localhost:3000,  http://localhost:3001"];
+var allowlist = ["http://localhost:3000", "http://localhost:3001"];
 
 app.use((req, res, next) => {
   console.log("\t");
