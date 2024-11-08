@@ -95,7 +95,30 @@ app.get("/", (req, res) => {
  *                   example: [{"id":1, "toName":"김기연", "fromName":"홍길동", "fromId":0, "message":"안녕하세요 ㅎㅎ", "type":"", "date":"2024-11-08T07:56:44.000Z"}, {"id":2, "toName":"김기연", "fromName":"누구게", "fromId":0, "message":"hello", "type":"", "date":"2024-11-08T11:56:28.000Z"}]
  */
 
-app.get("/messages", (req, res) => {
+/**
+ * @swagger
+ *  /messages:
+ *    get:
+ *      tags: [API]
+ *      summary: "받은 편지 조회"
+ *      description: "특정 사용자(name)의 이름으로 온 편지를 조회합니다."
+ *      produces:
+ *      - application/json
+ *      parameters:
+ *        - in: query
+ *          name: name
+ *          required: true
+ *          schema:
+ *            type: string
+ *            description: "조회할 사용자 이름"
+ *      responses:
+ *       200:
+ *        description: 제품 조회 성공
+ *        schema:
+ *          $ref: '#/components/schemas/SendMessage'
+ */
+
+출처: https: app.get("/messages", (req, res) => {
   try {
     let toName = req.query.name;
     maria.query(

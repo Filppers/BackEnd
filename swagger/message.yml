@@ -1,0 +1,25 @@
+components:
+  schemas:
+    SendMessage:
+      properties:
+        _id:
+          type: integer
+          description: 해당 편지의 ID
+        toName:
+          type: string
+          description: 받는 사람 이름
+        fromName:
+          type: string
+          description: 보내는 사람 이름
+        fromId:
+          type: integer
+          description: 보내는 사람 ID
+        message:
+          type: string
+          description: 편지 내용
+        type:
+          type: string
+          description: 편지 타입 - 편지 배경색, 폰트 설정 등의 기능으로 자유롭게 이용
+        date:
+          type: string
+          description: 편지 작성 시간
