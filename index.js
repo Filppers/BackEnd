@@ -65,54 +65,72 @@ app.use(bodyParser.urlencoded({ extended: false })); //
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
 /**
  * @swagger
- * /messages?name={name}:
- *  get:
- *    summary: "받은 편지 조회"
- *    description: "특정 사용자(name)의 이름으로 온 편지를 조회합니다."
- *    tags: [API]
- *    parameters:
- *      - in: query
- *        name: name
- *        required: true
- *        description: 사용자 이름 (예: 김기연)
- *        schema:
- *          type: string
- *    responses:
- *      "200":
- *        description: "특정 사용자가 받은 편지 조회 성공"
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                ok:
- *                  type: boolean
- *                users:
- *                  type: object
- *                  example: [
-    {
-        "_id": 1,
-        "toName": "김기연",
-        "fromName": "홍길동",
-        "fromId": 0,
-        "message": "안녕하세요 ㅎㅎ",
-        "type": "",
-        "date": "2024-11-08T07:56:44.000Z"
-    },
-    {
-        "_id": 2,
-        "toName": "김기연",
-        "fromName": "누구게",
-        "fromId": 0,
-        "message": "hello",
-        "type": "",
-        "date": "2024-11-08T11:56:28.000Z"
-    },
-]
+ * /messages:
+ *   get:
+ *     summary: "받은 편지 조회"
+ *     description: "특정 사용자(name)의 이름으로 온 편지를 조회합니다."
+ *     tags: [API]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         required: true
+ *         description: 사용자 이름 (예: 김기연)
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: "특정 사용자가 받은 편지 조회 성공"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: integer
+ *                     description: "해당 편지의 ID"
+ *                   toName:
+ *                     type: string
+ *                     description: "받는 사람 이름"
+ *                   fromName:
+ *                     type: string
+ *                     description: "보내는 사람 이름"
+ *                   fromId:
+ *                     type: integer
+ *                     description: "보내는 사람 ID"
+ *                   message:
+ *                     type: string
+ *                     description: "편지 내용"
+ *                   type:
+ *                     type: string
+ *                     description: "편지 타입 - 편지 배경색, 폰트 설정 등의 기능으로 자유롭게 이용!"
+ *                   date:
+ *                     type: string
+ *                     format: date-time
+ *                     description: "편지 작성 시간"
+ *             examples:
+ *               example1:
+ *                 summary: "편지 목록 예시"
+ *                 value:
+ *                   - _id: 1
+ *                     toName: "김기연"
+ *                     fromName: "홍길동"
+ *                     fromId: 0
+ *                     message: "안녕하세요 ㅎㅎ"
+ *                     type: ""
+ *                     date: "2024-11-08T07:56:44.000Z"
+ *                   - _id: 2
+ *                     toName: "김기연"
+ *                     fromName: "누구게"
+ *                     fromId: 0
+ *                     message: "hello"
+ *                     type: ""
+ *                     date: "2024-11-08T11:56:28.000Z"
  */
+
 app.get("/messages", (req, res) => {
   try {
     let toName = req.query.name;
@@ -161,7 +179,7 @@ app.get("/messages", (req, res) => {
  *                 description: "보낼 편지 내용 (2000자 이내)"
  *               type:
  *                 type: string
- *                 description: "편지 타입 설정 등의 기능으로 자유롭게 이용! (선택 입력)"
+ *                 description: "편지 배경색, 폰트 설정 등의 기능으로 자유롭게 이용! (선택 입력)"
  *             required:
  *               - toName
  *               - fromName
