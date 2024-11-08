@@ -162,14 +162,12 @@ app.get("/messages", (req, res) => {
  *     tags: [API]
  *     summary: "편지 전송"
  *     description: "특정 사용자(name)에게 편지를 전송합니다."
- *     consumes:
- *       - application/json
  *     requestBody:
- *       x-name: body
  *       required: true
  *       content:
  *         application/json:
  *           schema:
+ *             type: object
  *             required:
  *               - toName
  *               - fromName
