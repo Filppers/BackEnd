@@ -86,10 +86,52 @@ app.get("/", (req, res) => {
  *       200:
  *        description: 제품 조회 성공
  *        schema:
- *          $ref: '#/components/schemas/SendMessage'
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              _id:
+ *                type: integer
+ *                description: "메시지 ID"
+ *              toName:
+ *                type: string
+ *                description: "받는 사람 이름"
+ *              fromName:
+ *                type: string
+ *                description: "보내는 사람 이름"
+ *              fromId:
+ *                type: integer
+ *                description: "보내는 사람 ID"
+ *              message:
+ *                type: string
+ *                description: "편지 내용"
+ *              type:
+ *                type: string
+ *                description: "편지 타입"
+ *              date:
+ *                type: string
+ *                format: date-time
+ *                description: "날짜 및 시간"
+ *        examples:
+ *          example1:
+ *            summary: "편지 목록 예시"
+ *            value:
+ *              - _id: 1
+ *                toName: "김기연"
+ *                fromName: "홍길동"
+ *                fromId: 0
+ *                message: "안녕하세요 ㅎㅎ"
+ *                type: ""
+ *                date: "2024-11-08T07:56:44.000Z"
+ *              - _id: 2
+ *                toName: "김기연"
+ *                fromName: "누구게"
+ *                fromId: 0
+ *                message: "hello"
+ *                type: ""
+ *                date: "2024-11-08T11:56:28.000Z"
  */
-
-출처: https: app.get("/messages", (req, res) => {
+app.get("/messages", (req, res) => {
   try {
     let toName = req.query.name;
     maria.query(
