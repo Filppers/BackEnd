@@ -250,34 +250,34 @@ app.post("/gpt/generate/trip", async (req, res) => {
 
 /**
  * @swagger
- *  /oauth/callback:
- *    get:
- *      tags: [API]
- *      summary: "구글 OAuth 로그인"
- *      description: "구글 소셜 로그인을 통해 AccessToken을 발급합니다."
- *      produces:
- *      - application/json
- *      parameters:
- *        - in: query
- *          code: 쿼리 파라미터값으로 받은 authorization_code
- *          required: true
- *          schema:
- *            type: string
- *            description: " 쿼리 파라미터값으로 받은 authorization_code"
- *      responses:
- *       200:
- *        description: 구글 소셜 로그인 성공
- *        schema:
- *          type: array
- *          items:
- *            type: object
- *            properties:
- *              access_token:
- *                type: string
- *                description: "쿠키에 저장 할 AccessToken 값"
- *              name:
- *                type: string
- *                description: "로그인 한 사용자 이름"
+ * /oauth/callback:
+ *   get:
+ *     tags: [API]
+ *     summary: "구글 OAuth 로그인"
+ *     description: "구글 소셜 로그인을 통해 AccessToken을 발급합니다."
+ *     produces:
+ *     - application/json
+ *     parameters:
+ *       - in: query
+ *         code: 쿼리 파라미터값으로 받은 authorization_code
+ *         required: true
+ *         schema:
+ *           type: string
+ *           description: " 쿼리 파라미터값으로 받은 authorization_code"
+ *     responses:
+ *      200:
+ *       description: 구글 소셜 로그인 성공
+ *       schema:
+ *         type: array
+ *         items:
+ *           type: object
+ *           properties:
+ *             access_token:
+ *               type: string
+ *               description: "쿠키에 저장 할 AccessToken 값"
+ *             name:
+ *               type: string
+ *               description: "로그인 한 사용자 이름"
  */
 app.get("/oauth/callback", async (req, res) => {
   // OAuth Provider = kakao | naver | google
@@ -319,7 +319,7 @@ app.get("/oauth/callback", async (req, res) => {
 
     console.log(response?.data);
 
-    const name = response?.data.data.name;
+    const name = response?.data.name;
     const accessToken = makeToken({ name });
 
     res.status(200).send({ access_token: accessToken, name });
