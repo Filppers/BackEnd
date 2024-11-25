@@ -258,7 +258,7 @@ app.post("/gpt/generate/trip", async (req, res) => {
  *    get:
  *      tags: [API]
  *      summary: "구글 OAuth 로그인"
- *      description: "구글 소셜 로그인을
+ *      description: "구글 소셜 로그인을 통해 AccessToken을 발급합니다."
  *      produces:
  *      - application/json
  *      parameters:
