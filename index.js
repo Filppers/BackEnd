@@ -5,7 +5,7 @@ const axios = require("axios");
 const bodyParser = require("body-parser");
 var createError = require("http-errors");
 const { swaggerUi, specs } = require("./swagger/swagger");
-const { makeToken } = require("../jwt.js");
+const { makeToken } = require("./jwt.js");
 const { callChatGPT } = require("./chatgpt");
 const port = 8080;
 
