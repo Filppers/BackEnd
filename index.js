@@ -27,11 +27,7 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(specs));
 var maria = require("./config/maria");
 maria.connect();
 
-var allowlist = [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "http://localhost:8080",
-];
+var allowlist = ["http://localhost:3000", "http://localhost:3001"];
 
 app.use((req, res, next) => {
   console.log("\t");
