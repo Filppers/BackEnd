@@ -5,7 +5,7 @@ const axios = require("axios");
 const bodyParser = require("body-parser");
 var createError = require("http-errors");
 const { swaggerUi, specs } = require("./swagger/swagger");
-
+const { makeToken } = require("../jwt.js");
 const { callChatGPT } = require("./chatgpt");
 const port = 8080;
 
@@ -23,11 +23,15 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 // Swagger
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(specs));
 
-// DB
+// DB setting
 var maria = require("./config/maria");
 maria.connect();
 
-var allowlist = ["http://localhost:3000", "http://localhost:3001"];
+var allowlist = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:8080",
+];
 
 app.use((req, res, next) => {
   console.log("\t");
@@ -248,9 +252,40 @@ app.post("/gpt/generate/trip", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ *  /oauth/callback:
+ *    get:
+ *      tags: [API]
+ *      summary: "구글 OAuth 로그인"
+ *      description: "구글 소셜 로그인을
+ *      produces:
+ *      - application/json
+ *      parameters:
+ *        - in: query
+ *          code: 쿼리 파라미터값으로 받은 authorization_code
+ *          required: true
+ *          schema:
+ *            type: string
+ *            description: " 쿼리 파라미터값으로 받은 authorization_code"
+ *      responses:
+ *       200:
+ *        description: 구글 소셜 로그인 성공
+ *        schema:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              access_token:
+ *                type: string
+ *                description: "쿠키에 저장 할 AccessToken 값"
+ *              name:
+ *                type: string
+ *                description: "로그인 한 사용자 이름"
+ */
 app.get("/oauth/callback", async (req, res) => {
   // OAuth Provider = kakao | naver | google
-  let oauthProvider = req.query.provider;
+  let oauthProvider = req.query?.provider ?? "google";
   console.log(`==== OAUTH LOGIN , Provider: ${oauthProvider} ====`);
 
   // 1. Authorization Code로 naver 서비스 AccessToken 획독
@@ -288,7 +323,10 @@ app.get("/oauth/callback", async (req, res) => {
 
     console.log(response?.data);
 
-    res.send(response?.data);
+    const name = response?.data.data.name;
+    const accessToken = makeToken({ name });
+
+    res.status(200).send({ access_token: accessToken, name });
 
     // if (oauthProvider === "naver") {
     //   oauthUserInfoRes = response?.data?.response;
